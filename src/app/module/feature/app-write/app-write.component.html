@@ -1,0 +1,19 @@
+<h1>Write</h1>
+
+  <form class="container" [formGroup]="emailFormGroup">
+      <mat-form-field>
+        <input matInput formControlName="recipient" placeholder="Recipient">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput formControlName="subject" placeholder="Subject">
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea matInput formControlName="message" placeholder="Message"></textarea>
+      </mat-form-field>
+
+      <button mat-raised-button (click)="send()">SEND</button>
+  </form>
+
+

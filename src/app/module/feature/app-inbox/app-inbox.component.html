@@ -1,0 +1,67 @@
+<h1>Inbox</h1>
+
+<div class="flex">
+    <span class="spacer"></span>
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Sender">
+    </mat-form-field>
+    <a mat-button (click)="deletEmail()">Delete</a>
+    <a mat-button (click)="writeEmail()">Write</a>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                      [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation(); checkSelect(row);"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)"
+                      [aria-label]="checkboxLabel(row)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+
+    <!-- archive Column -->
+    <ng-container matColumnDef="archive">
+      <th mat-header-cell *matHeaderCellDef> Archive </th>
+      <!-- <td mat-cell *matCellDef="let element"> {{element.a}} </td> -->
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="archiveToggle( $event, element)" [checked]="element.archive"></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <!-- date Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> Date </th>
+      <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+    </ng-container>
+
+    <!-- sender Column -->
+    <ng-container matColumnDef="sender">
+      <th mat-header-cell *matHeaderCellDef> Sender </th>
+      <td mat-cell *matCellDef="let element"> {{element.sender}} </td>
+    </ng-container>
+
+    <!-- subject Column -->
+    <ng-container matColumnDef="subject">
+      <th mat-header-cell *matHeaderCellDef> subject </th>
+      <td mat-cell *matCellDef="let element"> {{element.subject}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+      (click)="rowSelect(row)">
+
+    </tr>
+  </table>
